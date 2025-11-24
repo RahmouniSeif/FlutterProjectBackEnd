@@ -1,0 +1,33 @@
+package com.campify.campifybackend.campifyBase.models;
+
+public enum Action {
+    READ,
+    CREATE,
+    UPDATE,
+    DELETE,
+    CANCEL,
+    OLIVE_QUALITY,
+    OIL_QUALITY,
+    UPDATE_OLIVE_QUALITY,
+    UPDATE_OIL_QUALITY,
+    TO_PROD,
+    COMPLETE,
+    OIL_PAYMENT,
+    OIL_OUT_TRANSACTION,
+    OIL_IN_TRANSACTION,
+    OIL_RECEPTION,
+    SET_PRICE,
+    ASSIGN_SUPPLIER,
+    COMPLETE_PAYMENT_DETAILS,
+    VALIDATE,
+    PAY,
+    GEN_PDF,
+    GEN_INVOICE,
+    GEN_PDF_QC_OIL,
+    GEN_PDF_QC_OLIVE,
+    GEN_PDF_PRODUCTION,
+    APPROVE,
+    REJECT,
+    MAINTENANCE
+
+}
