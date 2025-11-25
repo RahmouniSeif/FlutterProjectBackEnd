@@ -34,26 +34,19 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    // JSONB: Spring Data JPA/Hibernate peut gérer le JSONB.
-    // Pour les besoins de ce CRUD simple, nous le traitons comme une String.
-    // Pour une manipulation complexe en JSON, il faudrait une configuration Hibernate Type spécifique.
-    @Column(name = "preferences", columnDefinition = "jsonb")
-    private String preferences;
-
     @Column(name = "user_type", nullable = false)
     private String userType; // 'user' ou 'center_owner'
 
     @CreationTimestamp // Gère l'insertion automatique du timestamp
     @Column(name = "created_at", nullable = false, updatable = false)
-    private OffsetDateTime createdAt;
+    private OffsetDateTime createdAt = OffsetDateTime.now();
 
     // Constructeur pour la création (sans l'ID ni la date de création)
-    public User(String name, String email, String phone, String password, String preferences, String userType) {
+    public User(String name, String email, String phone, String password, String userType) {
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.password = password;
-        this.preferences = preferences;
         this.userType = userType;
     }
 }

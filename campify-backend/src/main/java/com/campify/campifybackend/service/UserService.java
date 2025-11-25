@@ -45,8 +45,6 @@ public class UserService {
                     user.setName(updatedUser.getName());
                     user.setEmail(updatedUser.getEmail());
                     user.setPhone(updatedUser.getPhone());
-                    // Le mot de passe et les préférences pourraient nécessiter une logique de mise à jour séparée
-                    user.setPreferences(updatedUser.getPreferences());
                     user.setUserType(updatedUser.getUserType());
                     return userRepository.save(user);
                 })
