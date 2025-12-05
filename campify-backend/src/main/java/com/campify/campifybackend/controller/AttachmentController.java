@@ -41,6 +41,14 @@ public class AttachmentController {
         return ResponseEntity.ok(attachments);
     }
 
+    @GetMapping("/user/{userId}/attachment/{attachmentType}")
+    public ResponseEntity<Attachment> getAttachmentByUserIdAndAttachmentType(
+            @PathVariable UUID userId,
+            @PathVariable String attachmentType) {
+        Attachment attachment = attachmentService.getAttachmentByUserIdAndAttachmentType(userId, attachmentType);
+        return ResponseEntity.ok(attachment);
+    }
+
     // POST a new attachment (For file *metadata* creation)
     @PostMapping
     public ResponseEntity<Attachment> createAttachment(@RequestBody Attachment attachment) {

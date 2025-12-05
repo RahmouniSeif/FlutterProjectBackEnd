@@ -12,4 +12,5 @@ public interface AttachmentRepository extends JpaRepository<Attachment, UUID> {
 
     // Custom finder method: Find all attachments belonging to a specific user
     List<Attachment> findByUserId(UUID userId);
+    Attachment findByUserIdAndAttachmentType(UUID userId, String attachmentType);
 }

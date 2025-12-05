@@ -42,6 +42,10 @@ public class AttachmentService {
         return attachmentRepository.findByUserId(userId);
     }
 
+    public Attachment getAttachmentByUserIdAndAttachmentType(UUID userId, String attachmentType) {
+        return attachmentRepository.findByUserIdAndAttachmentType(userId, attachmentType);
+    }
+
     // UPDATE
     @Transactional
     public Attachment updateAttachment(UUID id, Attachment attachmentDetails) {
