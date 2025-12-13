@@ -130,4 +130,20 @@ public class UserService {
         }
         return false;
     }
+
+    // --- Change Password ---
+    public boolean changePassword(UUID userId, String oldPassword, String newPassword) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            // Verify old password
+            // WARNING: In production use passwordEncoder.matches(oldPassword, user.getPassword())
+            if (user.getPassword() != null && user.getPassword().equals(oldPassword)) {
+                user.setPassword(newPassword); // Hash this!
+                userRepository.save(user);
+                return true;
+            }
+        }
+        return false;
+    }
 }

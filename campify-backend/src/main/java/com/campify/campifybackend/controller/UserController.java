@@ -133,4 +133,18 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
+    // --- Change Password ---
+    @Operation(summary = "Change Password", description = "Changes the user's password if the old password matches.")
+    @PostMapping("/{id}/change-password")
+    public ResponseEntity<?> changePassword(@PathVariable UUID id, @RequestBody java.util.Map<String, String> body) {
+        String oldPassword = body.get("oldPassword");
+        String newPassword = body.get("newPassword");
+
+        if (userService.changePassword(id, oldPassword, newPassword)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid old password or user not found.");
+        }
+    }
 }
