@@ -41,6 +41,12 @@ public class User {
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt = OffsetDateTime.now();
 
+    @Column(name = "reset_token")
+    private String resetToken;
+
+    @Column(name = "reset_token_expiry")
+    private OffsetDateTime resetTokenExpiry;
+
     // Constructeur pour la création (sans l'ID ni la date de création)
     public User(String name, String email, String phone, String password, String userType) {
         this.name = name;

@@ -13,4 +13,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     // Exemple de méthode personnalisée pour la recherche par email
     Optional<User> findByEmail(String email);
+
+    Optional<User> findByResetToken(String resetToken);
 }

@@ -106,4 +106,31 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    // --- Forgot Password ---
+    @Operation(summary = "Request Password Reset", description = "Generates a reset token and sends it to the user's email.")
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody java.util.Map<String, String> body) {
+        String email = body.get("email");
+        try {
+            userService.forgotPassword(email);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    // --- Reset Password ---
+    @Operation(summary = "Reset Password", description = "Resets the user's password using a valid token.")
+    @PostMapping("/reset-password")
+    public ResponseEntity<Void> resetPassword(@RequestBody java.util.Map<String, String> body) {
+        String token = body.get("token");
+        String newPassword = body.get("newPassword");
+        
+        if (userService.resetPassword(token, newPassword)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
 }

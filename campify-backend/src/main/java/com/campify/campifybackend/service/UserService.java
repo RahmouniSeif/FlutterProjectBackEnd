@@ -80,4 +80,54 @@ public class UserService {
         // Authentication failed (user not found or password mismatch)
         return Optional.empty();
     }
+
+    // --- Forgot Password ---
+    @Autowired
+    private EmailService emailService;
+
+    public void forgotPassword(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            // Generate 4-digit token
+            String token = String.valueOf(1000 + new java.util.Random().nextInt(9000));
+            user.setResetToken(token);
+            // Token valid for 1 hour
+            user.setResetTokenExpiry(java.time.OffsetDateTime.now().plusHours(1));
+            userRepository.save(user);
+
+            // Send email
+            emailService.sendSimpleMessage(
+                    user.getEmail(),
+                    "Password Reset Request",
+                    "To reset your password, use this token: " + token
+            );
+        } else {
+            throw new RuntimeException("there is no user with this email !");
+        }
+    }
+
+    // --- Reset Password ---
+    public boolean resetPassword(String token, String newPassword) {
+        // Find user by token? Effectively we might need a method in repo to find by resetToken
+        // Or we assume the user provides email + token?
+        // Usually: findByResetToken. Let's assume we can add that to repo or iterate (inefficient)
+        // Better: Add findByResetToken to UserRepository.
+        
+        Optional<User> userOptional = userRepository.findByResetToken(token);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            
+            // Check expiry
+            if (user.getResetTokenExpiry().isAfter(java.time.OffsetDateTime.now())) {
+                user.setPassword(newPassword); // Remember to hash this in production!
+                user.setResetToken(null);
+                user.setResetTokenExpiry(null);
+                userRepository.save(user);
+                return true;
+            }
+        }
+        return false;
+    }
 }
